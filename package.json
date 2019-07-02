@@ -25,7 +25,8 @@
   "homepage": "https://github.com/tavira/project-lvl3-s452#readme",
   "dependencies": {
     "@babel/plugin-proposal-pipeline-operator": "^7.3.2",
-    "bootstrap": "^4.3.1"
+    "bootstrap": "^4.3.1",
+    "surge": "^0.21.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
