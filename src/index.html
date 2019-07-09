@@ -7,14 +7,32 @@
   <title>Document</title>
 </head>
 <body>
-  <div class="jumbotron">
-    <form>
-      <div class ="form-group">
-        <label for="rss-address">RSS feed</label>
-        <input type="text" class="form-control" id="rss-address" placeholder="Enter RSS feed">
+  <div class="container">
+    <div class="jumbotron">
+      <form>
+        <div class ="form-group">
+          <label for="rss-address">RSS feed</label>
+          <input type="text" class="form-control" id="rss-address" placeholder="Enter RSS feed">
+          <div id="rss-feedback" class="invalid-feedback"></div>
+        </div>
+        <button id="rss-address-add" type="submit" class="btn btn-primary" disabled>Add feed</button>
+      </form>
+    </div>
+  </div>
+  <div class="container">
+      <div class="alert alert-info" role="alert">
+          Click on feed to show feed posts
       </div>
-      <button id="rss-address-add" type="submit" class="btn btn-primary" disabled>Add feed</button>
-    </form>
+    <div class="row">
+      <div id="feeds" class="col-5">
+        <h4 class="text-left">RSS feeds</h2>
+        <div id="feeds-list"></div>
+      </div>
+      <div id="articles" class="col-7">
+        <h4 class="text-center">Feed posts</h2>
+        <div id="articles-list"></div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
