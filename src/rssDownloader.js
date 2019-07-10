@@ -40,12 +40,12 @@ const app = () => {
         const title = xmlDocument.querySelector('channel > title').textContent;
         const desc = xmlDocument.querySelector('channel > description').textContent;
         const articles = Array.from(xmlDocument.querySelectorAll('item'))
-          .map((el) => {
+          .map((el, index) => {
             const itemTitle = el.querySelector('title').textContent;
             const itemDesc = el.querySelector('description').textContent;
             const itemLink = el.querySelector('link').textContent;
             return {
-              title: itemTitle, desc: itemDesc, link: itemLink,
+              id: index + 1, title: itemTitle, desc: itemDesc, link: itemLink,
             };
           });
         const newFeed = {
@@ -54,10 +54,12 @@ const app = () => {
 
         store.feeds = [...store.feeds, newFeed];
         store.rssFeed.value = '';
+        store.activeData.feedId = newFeed.id;
         store.addFeedButton.disabled = false;
       })
       .catch(() => {
         store.rssFeed.validationMessage = 'Error while downloading RSS. Try another RSS';
+        console.log(error);
       });
   };
 

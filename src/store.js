@@ -8,6 +8,10 @@ const store = {
     disabled: true,
   },
   feeds: [],
+  activeData: {
+    feedId: null,
+    postId: null,
+  },
 };
 
 export default store;
