@@ -57,7 +57,7 @@ const app = () => {
         store.activeData.feedId = newFeed.id;
         store.addFeedButton.disabled = false;
       })
-      .catch(() => {
+      .catch((error) => {
         store.rssFeed.validationMessage = 'Error while downloading RSS. Try another RSS';
         console.log(error);
       });
