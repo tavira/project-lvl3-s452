@@ -12,6 +12,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack",
+    "start": "webpack-dev-server --open",
     "prepublishOnly": "npm run build"
   },
   "repository": {
@@ -51,6 +52,7 @@
     "jest-cli": "^24.8.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.35.2",
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   }
 }

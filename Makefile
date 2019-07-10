@@ -1,7 +1,7 @@
 install: install-deps
 
 run:
-	npx babel-node 'src/index.js' 10
+	npm start
 
 install-deps:
 	npm install
