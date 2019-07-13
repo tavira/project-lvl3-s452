@@ -11,7 +11,9 @@ const store = {
   activeData: {
     feedId: null,
     postId: null,
+    hasNewPosts: false,
   },
+  downloading: 'completed',
   corsproxy: 'https://cors-anywhere.herokuapp.com/',
   updateInterval: 3000,
 };
