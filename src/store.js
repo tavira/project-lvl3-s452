@@ -15,7 +15,7 @@ const store = {
   },
   downloading: 'completed',
   corsproxy: 'https://cors-anywhere.herokuapp.com/',
-  updateInterval: 3000,
+  updateInterval: 6000,
 };
 
 export default store;
