@@ -12,7 +12,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack",
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --open 'google-chrome'",
     "prepublishOnly": "npm run build"
   },
   "repository": {
