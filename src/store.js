@@ -12,6 +12,8 @@ const store = {
     feedId: null,
     postId: null,
   },
+  corsproxy: 'https://cors-anywhere.herokuapp.com/',
+  updateInterval: 3000,
 };
 
 export default store;
