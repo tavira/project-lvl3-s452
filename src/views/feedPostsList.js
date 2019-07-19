@@ -1,15 +1,15 @@
-import store from '../store';
-
-const feedsArticles = document.getElementById('articles-list');
-
-const renderFeedPostsContent = () => {
-  const { articles } = store.feeds[store.activeData.feedId - 1];
-
+export default (rssFeedsModel) => {
+  const activeFeedId = rssFeedsModel.getActiveFeedId();
+  if (activeFeedId === null) {
+    return;
+  }
+  const { articles } = rssFeedsModel.getFeeds().find(el => el.id === activeFeedId);
+  const feedsArticles = document.getElementById('articles-list');
   feedsArticles.innerHTML = '';
   articles.forEach((el) => {
     const article = document.createElement('div');
     article.classList.add('card');
-    article.setAttribute('data-id', el.id);
+    article.setAttribute('data-guid', el.guid);
 
     const articleBody = document.createElement('div');
     articleBody.classList.add('card-body');
@@ -36,10 +36,4 @@ const renderFeedPostsContent = () => {
     article.appendChild(articleBody);
     feedsArticles.appendChild(article);
   });
-};
-
-export default () => {
-  if (store.activeData.feedId > 0 || store.activeData.hasNewPosts === true) {
-    renderFeedPostsContent();
-  }
 };

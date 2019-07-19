@@ -1,9 +1,8 @@
-import store from '../store';
-
-export default () => {
+export default (rssFeedsModel) => {
   const feedList = document.getElementById('feeds-list');
   feedList.innerHTML = '';
-  store.feeds.forEach((element) => {
+  const feeds = rssFeedsModel.getFeeds();
+  feeds.forEach((element) => {
     const feed = document.createElement('div');
     feed.setAttribute('data-id', element.id);
     feed.classList.add('card');
