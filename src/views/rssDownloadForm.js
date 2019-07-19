@@ -1,16 +1,14 @@
-import store from '../store';
-
-export default () => {
+export default (model) => {
   const rssFeedAddButton = document.getElementById('rss-address-add');
   const rssFeedback = document.getElementById('rss-feedback');
   const rssFeedInput = document.getElementById('rss-address');
 
-  rssFeedInput.value = store.rssFeed.value;
-  rssFeedAddButton.disabled = store.addFeedButton.disabled;
-  rssFeedback.textContent = store.rssFeed.validationMessage;
+  rssFeedInput.value = model.getValue();
+  rssFeedAddButton.disabled = model.getAddButtonDisabled();
+  rssFeedback.textContent = model.getValidationMessage();
   rssFeedback.style.display = 'block';
 
-  if (!store.rssFeed.isValid) {
+  if (!model.getValid()) {
     rssFeedInput.classList.add('border');
     rssFeedInput.classList.add('border-danger');
   } else {
