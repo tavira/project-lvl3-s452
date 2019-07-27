@@ -4,59 +4,56 @@ import {
 } from '../parsers/rssParser';
 import config from '../config';
 
-const loadOneFeed = (url, rssDownloadFormModel, rssFeedsModel) => {
-  axios.get(url)
+const loadOneFeed = (state) => {
+  const feedUrl = state.rssDownloadForm.urlValue;
+  const loadUrl = config.corsproxy + feedUrl;
+  axios.get(loadUrl)
     .then(response => response.data)
     .then((data) => {
       const xml = new DOMParser().parseFromString(data, 'text/xml');
       const newFeed = {
-        url: rssDownloadFormModel.getValue(),
+        url: feedUrl,
         title: getFeedTitle(xml),
         desc: getFeedDesc(xml),
         articles: getArticles(xml),
       };
-      rssFeedsModel.addFeed(newFeed);
-      rssDownloadFormModel.setValue('');
+      state.rssDownloadForm.setState('downloaded');
+      state.feeds.addFeed(newFeed);
     })
     .catch((error) => {
-      rssDownloadFormModel.setValidationMessage(error);
-    })
-    .finally(() => {
-      rssDownloadFormModel.setAddButtonDisabled(false);
+      state.rssDownloadForm.setState('download-error', error);
     });
 };
 
-const loadArticlesToDownloadedFeeds = (response, rssFeedsModel) => {
+const loadArticlesToDownloadedFeeds = (response, state) => {
   const { corsproxy } = config;
   const xml = new DOMParser().parseFromString(response.data, 'text/xml');
   const url = response.config.url.replace(corsproxy, '');
   const downloadedArticles = getArticles(xml);
-  rssFeedsModel.addPostsToDownloadedFeed(url, downloadedArticles);
+  state.feeds.addPostsToDownloadedFeed(url, downloadedArticles);
 };
 
-const periodicallyUpdateFeeds = (rssFeedsModel, rssDownloadFormModel) => {
+const periodicallyUpdateFeeds = (state) => {
   const { corsproxy, updateInterval } = config;
-  const feeds = rssFeedsModel.getFeeds();
-  if (feeds.length === 0) {
-    setTimeout(periodicallyUpdateFeeds, updateInterval,
-      rssFeedsModel, rssDownloadFormModel);
+  const { feedsList } = state.feeds;
+  if (feedsList.length === 0) {
+    setTimeout(periodicallyUpdateFeeds, updateInterval, state);
     return;
   }
-  const requests = feeds.map(el => el.url)
+  const requests = feedsList.map(el => el.url)
     .map(url => corsproxy + url)
     .map(url => axios.get(url));
   Promise.all(requests)
     .then((responses) => {
       responses.forEach((response) => {
-        loadArticlesToDownloadedFeeds(response, rssFeedsModel);
+        loadArticlesToDownloadedFeeds(response, state);
       });
     })
     .catch((error) => {
-      rssDownloadFormModel.setValidationMessage(error);
+      state.setValidationMessage(error);
     })
     .finally(() => {
-      setTimeout(periodicallyUpdateFeeds, updateInterval,
-        rssFeedsModel, rssDownloadFormModel);
+      setTimeout(periodicallyUpdateFeeds, updateInterval, state);
     });
 };
 

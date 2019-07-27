@@ -1,7 +1,6 @@
-export default (rssFeedsModel) => {
+export default (feeds) => {
   const feedList = document.getElementById('feeds-list');
   feedList.innerHTML = '';
-  const feeds = rssFeedsModel.getFeeds();
   feeds.forEach((element) => {
     const feed = document.createElement('div');
     feed.setAttribute('data-id', element.id);

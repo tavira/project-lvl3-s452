@@ -1,8 +1,8 @@
 import $ from 'jquery';
 
-export default (rssFeedsModel) => {
+export default (state) => {
   $('#postDesc').on('show.bs.modal', ({ relatedTarget }) => {
     const { guid } = relatedTarget.closest('.card').dataset;
-    rssFeedsModel.setActivePostGuid(guid);
+    state.posts.setActivePostGuid(guid);
   });
 };

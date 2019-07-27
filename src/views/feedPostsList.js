@@ -1,10 +1,19 @@
-export default (rssFeedsModel) => {
-  const activeFeedId = rssFeedsModel.getActiveFeedId();
-  if (activeFeedId === null) {
-    return;
-  }
-  const { articles } = rssFeedsModel.getFeeds().find(el => el.id === activeFeedId);
+const showSpinner = () => {
   const feedsArticles = document.getElementById('articles-list');
+  feedsArticles.innerHTML = '';
+  const spinner = document.createElement('div');
+  spinner.classList.add('spinner-border', 'text-primary');
+  const span = document.createElement('span');
+  span.classList.add('sr-only');
+  span.textContent = 'Loading...';
+  spinner.appendChild(span);
+  feedsArticles.appendChild(spinner);
+};
+
+const showPosts = (feeds) => {
+  const { articles } = feeds.feedsList.find(el => el.id === feeds.activeFeedId);
+  const feedsArticles = document.getElementById('articles-list');
+
   feedsArticles.innerHTML = '';
   articles.forEach((el) => {
     const article = document.createElement('div');
@@ -36,4 +45,22 @@ export default (rssFeedsModel) => {
     article.appendChild(articleBody);
     feedsArticles.appendChild(article);
   });
+};
+
+export default (feeds) => {
+  const { activeFeedId } = feeds;
+  if (activeFeedId === null) {
+    return;
+  }
+
+  switch (feeds.currentState) {
+    case 'updated':
+      showPosts(feeds);
+      break;
+    case 'updating':
+      showSpinner();
+      break;
+    default:
+      break;
+  }
 };
