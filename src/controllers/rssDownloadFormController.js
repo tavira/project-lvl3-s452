@@ -1,4 +1,6 @@
-import { loadOneFeed } from './rssLoadController';
+import axios from 'axios';
+import { extractRssFeed } from '../parsers/rssParser';
+import config from '../config';
 
 export default (state) => {
   const addButton = document.getElementById('rss-address-add');
@@ -11,7 +13,20 @@ export default (state) => {
   const addButtonHandler = (e) => {
     e.preventDefault();
     state.rssDownloadForm.setState('downloading');
-    loadOneFeed(state);
+    const url = config.corsproxy + state.rssDownloadForm.urlValue;
+
+    axios.get(url)
+      .then((response) => {
+        const feed = {
+          ...extractRssFeed(response),
+          url: state.rssDownloadForm.urlValue,
+        };
+        state.feeds.addFeed(feed);
+        state.rssDownloadForm.setState('downloaded');
+      })
+      .catch((error) => {
+        state.rssDownloadForm.setState('download-error', error);
+      });
   };
 
   addButton.addEventListener('click', addButtonHandler);
