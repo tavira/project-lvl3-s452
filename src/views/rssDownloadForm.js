@@ -9,34 +9,28 @@ export default (rssDownloadForm) => {
 
   switch (rssDownloadForm.currentState) {
     case 'invalid':
-      rssFeedInput.classList.add('border');
-      rssFeedInput.classList.add('border-danger');
+      rssFeedInput.classList.add('border', 'border-danger');
       rssFeedAddButton.disabled = true;
       break;
     case 'valid':
-      rssFeedInput.classList.remove('border');
-      rssFeedInput.classList.remove('border-danger');
+      rssFeedInput.classList.remove('border', 'border-danger');
       rssFeedAddButton.disabled = false;
       break;
     case 'empty':
-      rssFeedInput.classList.remove('border');
-      rssFeedInput.classList.remove('border-danger');
+      rssFeedInput.classList.remove('border', 'border-danger');
       rssFeedAddButton.disabled = true;
       break;
     case 'downloaded':
-      rssFeedInput.classList.remove('border');
-      rssFeedInput.classList.remove('border-danger');
+      rssFeedInput.classList.remove('border', 'border-danger');
       rssFeedAddButton.disabled = true;
       rssFeedInput.value = '';
       break;
     case 'downloading':
-      rssFeedInput.classList.remove('border');
-      rssFeedInput.classList.remove('border-danger');
+      rssFeedInput.classList.remove('border', 'border-danger');
       rssFeedAddButton.disabled = true;
       break;
     case 'download-error':
-      rssFeedInput.classList.add('border');
-      rssFeedInput.classList.add('border-danger');
+      rssFeedInput.classList.add('border', 'border-danger');
       rssFeedAddButton.disabled = false;
       break;
     default:
