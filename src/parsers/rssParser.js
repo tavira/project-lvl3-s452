@@ -1,29 +1,38 @@
-export const getFeedTitle = xml => xml.querySelector('channel > title').textContent;
+const getFeedTitle = xml => xml.querySelector('channel > title').textContent;
 
-export const getFeedDesc = xml => xml.querySelector('channel > description').textContent;
+const getFeedDesc = xml => xml.querySelector('channel > description').textContent;
 
-export const getFeedInfo = xml => ({
-  title: getFeedTitle(xml),
-  desc: getFeedDesc(xml),
-});
+const getFeedArticles = xml => Array.from(xml.querySelectorAll('item'));
 
-export const getFeedArticles = xml => Array.from(xml.querySelectorAll('item'));
+const getArticleTitle = item => item.querySelector('title').textContent;
 
-export const getArticleTitle = item => item.querySelector('title').textContent;
+const getArticleDesc = item => item.querySelector('description').textContent;
 
-export const getArticleDesc = item => item.querySelector('description').textContent;
+const getArticleLink = item => item.querySelector('link').textContent;
 
-export const getArticleLink = item => item.querySelector('link').textContent;
+const getArticleGuid = item => item.querySelector('guid').textContent;
 
-export const getArticlePubDate = item => item.querySelector('pubDate').textContent;
-
-export const getArticleGuid = item => item.querySelector('guid').textContent;
-
-export const getArticle = item => ({
+const getArticle = item => ({
   title: getArticleTitle(item),
   desc: getArticleDesc(item),
   link: getArticleLink(item),
   guid: getArticleGuid(item),
 });
 
-export const getArticles = xml => getFeedArticles(xml).map(el => getArticle(el));
+const getArticles = xml => getFeedArticles(xml).map(el => getArticle(el));
+
+export const extractRssFeed = (response) => {
+  const { data } = response;
+  const xmlParser = new DOMParser().parseFromString(data, 'text/xml');
+  return {
+    title: getFeedTitle(xmlParser),
+    desc: getFeedDesc(xmlParser),
+    articles: getArticles(xmlParser),
+  };
+};
+
+export const extractRssArticles = (response) => {
+  const { data } = response;
+  const xmlParser = new DOMParser().parseFromString(data, 'text/xml');
+  return getArticles(xmlParser);
+};
