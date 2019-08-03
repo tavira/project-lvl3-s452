@@ -5,7 +5,7 @@ import appState from './state';
 import rssDownloadFormController from './controllers/rssDownloadFormController';
 import rssFeedsController from './controllers/rssFeedsController';
 import rssPostsController from './controllers/rssPostsController';
-import { periodicallyUpdateFeeds } from './controllers/rssLoadController';
+import periodicallyUpdateFeeds from './controllers/rssUpdateController';
 
 const state = appState();
 rssDownloadFormController(state);

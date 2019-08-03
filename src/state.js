@@ -1,12 +1,19 @@
 import { watch } from 'melanke-watchjs';
 import validator from 'validator';
+import i18next from 'i18next';
 
 import renderDownloadForm from './views/rssDownloadForm';
 import renderFeeds from './views/feedList';
 import renderFeedPosts from './views/feedPostsList';
 import renderPostDescription from './views/postDescription';
+import translations from '../assets/translations.json';
 
 export default () => {
+  i18next.init({
+    lng: 'en',
+    resources: translations,
+  });
+
   const state = {
     rssDownloadForm: {
       currentState: 'empty',
@@ -14,7 +21,6 @@ export default () => {
       validationMessage: '',
 
       setUrlValue(v) {
-        console.log(state);
         this.urlValue = v;
         if (this.urlValue === '') {
           this.validationMessage = '';
@@ -22,12 +28,12 @@ export default () => {
           return;
         }
         if (!validator.isURL(this.urlValue)) {
-          this.validationMessage = 'RSS feed address is not valid';
+          this.validationMessage = i18next.t('rssValidation.invalid');
           this.currentState = 'invalid';
           return;
         }
         if (state.feeds.feedsList.find(({ url }) => url === this.urlValue)) {
-          this.validationMessage = 'RSS feed is already on the list of downloaded feeds';
+          this.validationMessage = i18next.t('rssValidation.alreadyDownloaded');
           this.currentState = 'invalid';
           return;
         }
@@ -38,12 +44,11 @@ export default () => {
       setValidationMessage(v) {
         this.validationMessage = v;
       },
+
       setState(s, payload) {
-        console.log(s);
-        console.log(payload);
         const actions = {
-          invalid: () => this.setValidationMessage.call(state.rssDownloadForm, payload),
-          'download-error': () => this.setValidationMessage.call(state.rssDownloadForm, payload),
+          invalid: this.setValidationMessage.bind(this),
+          'download-error': this.setValidationMessage.bind(this),
         };
         if (actions[s]) {
           actions[s](payload);
