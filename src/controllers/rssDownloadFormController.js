@@ -7,25 +7,25 @@ export default (state) => {
   const rssInput = document.getElementById('rss-address');
 
   const inputHandler = ({ target }) => {
-    state.rssDownloadForm.setUrlValue(target.value);
+    state.setDownloadFormValue(target.value);
   };
 
   const addButtonHandler = (e) => {
     e.preventDefault();
-    state.rssDownloadForm.setState('downloading');
-    const url = config.corsproxy + state.rssDownloadForm.urlValue;
+    state.setDownloadFormState('downloading');
+    const url = config.corsproxy + state.downloadFormValue;
 
     axios.get(url)
       .then((response) => {
         const feed = {
           ...extractRssFeed(response),
-          url: state.rssDownloadForm.urlValue,
+          url: state.downloadFormValue,
         };
-        state.feeds.addFeed(feed);
-        state.rssDownloadForm.setState('downloaded');
+        state.addFeed(feed);
+        state.setDownloadFormState('downloaded');
       })
       .catch((error) => {
-        state.rssDownloadForm.setState('download-error', error);
+        state.setDownloadFormState('download-error', error);
       });
   };
 

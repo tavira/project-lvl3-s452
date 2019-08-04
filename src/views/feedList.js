@@ -1,4 +1,4 @@
-export default (feeds) => {
+export default ({ feeds }) => {
   const feedList = document.getElementById('feeds-list');
   feedList.innerHTML = '';
   feeds.forEach((element) => {

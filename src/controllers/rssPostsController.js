@@ -3,6 +3,6 @@ import $ from 'jquery';
 export default (state) => {
   $('#postDesc').on('show.bs.modal', ({ relatedTarget }) => {
     const { guid } = relatedTarget.closest('.card').dataset;
-    state.posts.setActivePostGuid(guid);
+    state.setActivePostGuid(guid);
   });
 };

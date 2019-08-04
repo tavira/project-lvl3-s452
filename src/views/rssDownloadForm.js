@@ -1,13 +1,13 @@
-export default (rssDownloadForm) => {
+export default (state) => {
   const rssFeedAddButton = document.getElementById('rss-address-add');
   const rssFeedback = document.getElementById('rss-feedback');
   const rssFeedInput = document.getElementById('rss-address');
 
-  rssFeedInput.value = rssDownloadForm.urlValue;
+  rssFeedInput.value = state.downloadFormValue;
   rssFeedback.style.display = 'block';
-  rssFeedback.textContent = rssDownloadForm.validationMessage;
+  rssFeedback.textContent = state.downloadFormMessage;
 
-  switch (rssDownloadForm.currentState) {
+  switch (state.downloadFormState) {
     case 'invalid':
       rssFeedInput.classList.add('border', 'border-danger');
       rssFeedAddButton.disabled = true;

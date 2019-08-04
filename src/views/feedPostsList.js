@@ -1,5 +1,6 @@
+const feedsArticles = document.getElementById('articles-list');
+
 const showSpinner = () => {
-  const feedsArticles = document.getElementById('articles-list');
   feedsArticles.innerHTML = '';
   const spinner = document.createElement('div');
   spinner.classList.add('spinner-border', 'text-primary');
@@ -10,10 +11,7 @@ const showSpinner = () => {
   feedsArticles.appendChild(spinner);
 };
 
-const showPosts = (feeds) => {
-  const { articles } = feeds.feedsList.find(el => el.id === feeds.activeFeedId);
-  const feedsArticles = document.getElementById('articles-list');
-
+const showPosts = (articles) => {
   feedsArticles.innerHTML = '';
   articles.forEach((el) => {
     const article = document.createElement('div');
@@ -47,15 +45,15 @@ const showPosts = (feeds) => {
   });
 };
 
-export default (feeds) => {
-  const { activeFeedId } = feeds;
+export default (state) => {
+  const { activeFeedId, feedsState, feeds } = state;
   if (activeFeedId === null) {
     return;
   }
-
-  switch (feeds.currentState) {
+  const { articles } = feeds.find(el => el.id === activeFeedId);
+  switch (feedsState) {
     case 'updated':
-      showPosts(feeds);
+      showPosts(articles);
       break;
     case 'updating':
       showSpinner();
