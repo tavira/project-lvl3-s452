@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { extractRssFeed } from '../parsers/rssParser';
+import getRssFeed from '../parsers/rssParser';
 import config from '../config';
 
 export default (state) => {
@@ -17,8 +17,9 @@ export default (state) => {
 
     axios.get(url)
       .then((response) => {
+        const parsedFeed = getRssFeed(response);
         const feed = {
-          ...extractRssFeed(response),
+          ...parsedFeed,
           url: state.downloadFormValue,
         };
         state.addFeed(feed);

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { extractRssArticles } from '../parsers/rssParser';
+import getRssFeed from '../parsers/rssParser';
 import config from '../config';
 
 const periodicallyUpdateFeeds = (state) => {
@@ -19,7 +19,7 @@ const periodicallyUpdateFeeds = (state) => {
     .then((responses) => {
       responses.forEach((r) => {
         const url = r.config.url.replace(corsproxy, '');
-        const articles = extractRssArticles(r);
+        const { articles } = getRssFeed(r);
         state.addPostsToDownloadedFeed(url, articles);
       });
     })
