@@ -12,7 +12,7 @@ const periodicallyUpdateFeeds = (state) => {
   }
 
   const requests = feeds
-    .map(feed => corsproxy + feed.url)
+    .map(feed => `${corsproxy}${feed.url}`)
     .map(url => axios.get(url));
 
   Promise.all(requests)
