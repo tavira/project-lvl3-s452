@@ -2,10 +2,10 @@ import i18next from 'i18next';
 
 import initState from './state';
 import initWatchers from './watchers';
-import handleRssDownloadForm from './controllers/handleRssDownloadForm';
-import handleRssFeeds from './controllers/handleRssFeeds';
-import handleRssPosts from './controllers/handleRssPosts';
-import periodicallyUpdateFeeds from './controllers/periodicallyUpdateFeeds';
+import handleRssDownloadForm from './handlers/handleRssDownloadForm';
+import handleRssFeeds from './handlers/handleRssFeeds';
+import handleRssPosts from './handlers/handleRssPosts';
+import periodicallyUpdateFeeds from './handlers/periodicallyUpdateFeeds';
 
 import translations from '../assets/translations.json';
 
