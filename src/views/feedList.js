@@ -1,23 +1,12 @@
 export default ({ feeds }) => {
-  const feedList = document.getElementById('feeds-list');
-  feedList.innerHTML = '';
-  feeds.forEach((element) => {
-    const feed = document.createElement('div');
-    feed.setAttribute('data-id', element.id);
-    feed.classList.add('card');
-    const feedBody = document.createElement('div');
-    feedBody.classList.add('card-body');
-    const title = document.createElement('h2');
-    title.textContent = element.title;
-    title.classList.add('card-title');
-    feedBody.appendChild(title);
-    const desc = document.createElement('p');
-    desc.textContent = element.desc;
-    desc.classList.add('card-text');
-    feedBody.appendChild(desc);
-    feed.appendChild(feedBody);
-    feedList.appendChild(feed);
-  });
-  feedList.style.display = 'block';
-  feedList.setAttribute('cursor', 'pointer');
+  const feedsViews = feeds.map(feed => (`
+    <div class='card' data-id='${feed.id}'>
+      <div class='card-body'>
+        <h2 class='card-title'>${feed.title}</h2>
+        <p class='card-text'>${feed.desc}</p>
+      </div>
+    </div>
+  `));
+  const feedsArticles = document.getElementById('feeds-list');
+  feedsArticles.innerHTML = feedsViews.join('');
 };

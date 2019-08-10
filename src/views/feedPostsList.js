@@ -1,48 +1,28 @@
-const feedsArticles = document.getElementById('articles-list');
-
 const showSpinner = () => {
-  feedsArticles.innerHTML = '';
-  const spinner = document.createElement('div');
-  spinner.classList.add('spinner-border', 'text-primary');
-  const span = document.createElement('span');
-  span.classList.add('sr-only');
-  span.textContent = 'Loading...';
-  spinner.appendChild(span);
-  feedsArticles.appendChild(spinner);
+  const content = `
+    <div class='spinner-border text-primary'>
+      <span class='sr-only'>Loading...</span>
+    </div>
+  `;
+  const feedsArticles = document.getElementById('articles-list');
+  feedsArticles.innerHTML = content;
 };
 
 const showPosts = (articles) => {
-  feedsArticles.innerHTML = '';
-  articles.forEach((el) => {
-    const article = document.createElement('div');
-    article.classList.add('card');
-    article.setAttribute('data-guid', el.guid);
-
-    const articleBody = document.createElement('div');
-    articleBody.classList.add('card-body');
-
-    const title = document.createElement('h3');
-    title.classList.add('card-title');
-
-    const titleLink = document.createElement('a');
-    titleLink.textContent = el.title;
-    titleLink.setAttribute('href', el.link);
-    titleLink.setAttribute('target', '_blank');
-
-    title.appendChild(titleLink);
-
-    articleBody.appendChild(title);
-
-    const buttonDesc = document.createElement('button');
-    buttonDesc.classList.add('btn', 'btn-primary', 'postDesc');
-    buttonDesc.setAttribute('data-toggle', 'modal');
-    buttonDesc.setAttribute('data-target', '#postDesc');
-    buttonDesc.textContent = 'Show post description';
-
-    articleBody.appendChild(buttonDesc);
-    article.appendChild(articleBody);
-    feedsArticles.appendChild(article);
-  });
+  const feedsArticles = document.getElementById('articles-list');
+  const articlesViews = articles.map(el => `
+    <div class='card' data-guid='${el.guid}'>
+      <div class='card-body'>
+        <h3 class='card-title'>
+          <a href='${el.link} target='_blank'>${el.title}</a>
+        </h3>
+        <button class='btn btn-primary post-desc' data-toggle='modal' data-target='#postDesc'>
+          Show post description
+        </button>
+      </div>
+    </div>
+  `);
+  feedsArticles.innerHTML = articlesViews.join('');
 };
 
 export default (state) => {
