@@ -23,6 +23,7 @@ const periodicallyUpdateFeeds = (state) => {
           const { articles } = getRssFeed(r);
           state.addPostsToDownloadedFeed(url, articles);
         } catch (error) {
+          console.log(error);
           state.setDownloadFormState('invalid', 'parsedWithError');
         }
       });

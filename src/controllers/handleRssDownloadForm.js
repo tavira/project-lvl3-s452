@@ -26,6 +26,7 @@ export default (state) => {
           state.addFeed(feed);
           state.setDownloadFormState('downloaded');
         } catch (error) {
+          console.error(error);
           state.setDownloadFormState('invalid', 'parsedWithError');
         }
       })

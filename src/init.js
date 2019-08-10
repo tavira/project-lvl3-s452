@@ -2,10 +2,10 @@ import i18next from 'i18next';
 
 import initState from './state';
 import initWatchers from './watchers';
-import rssDownloadFormController from './controllers/rssDownloadFormController';
-import rssFeedsController from './controllers/rssFeedsController';
-import rssPostsController from './controllers/rssPostsController';
-import periodicallyUpdateFeeds from './controllers/rssUpdateController';
+import handleRssDownloadForm from './controllers/handleRssDownloadForm';
+import handleRssFeeds from './controllers/handleRssFeeds';
+import handleRssPosts from './controllers/handleRssPosts';
+import periodicallyUpdateFeeds from './controllers/periodicallyUpdateFeeds';
 
 import translations from '../assets/translations.json';
 
@@ -17,8 +17,8 @@ export default () => {
 
   const state = initState();
   initWatchers(state);
-  rssDownloadFormController(state);
-  rssFeedsController(state);
-  rssPostsController(state);
+  handleRssDownloadForm(state);
+  handleRssFeeds(state);
+  handleRssPosts(state);
   periodicallyUpdateFeeds(state);
 };
