@@ -1,3 +1,5 @@
+import i18next from 'i18next';
+
 export default (state) => {
   const rssFeedAddButton = document.getElementById('rss-address-add');
   const rssFeedback = document.getElementById('rss-feedback');
@@ -5,7 +7,7 @@ export default (state) => {
 
   rssFeedInput.value = state.downloadFormValue;
   rssFeedback.style.display = 'block';
-  rssFeedback.textContent = state.downloadFormMessage;
+  rssFeedback.textContent = i18next.t(`rssFeedback.${state.downloadFormState}`, '');
 
   switch (state.downloadFormState) {
     case 'invalid':

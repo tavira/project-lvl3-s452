@@ -1,18 +1,9 @@
 import validator from 'validator';
-import i18next from 'i18next';
-
-import translations from '../assets/translations.json';
 
 export default () => {
-  i18next.init({
-    lng: 'en',
-    resources: translations,
-  });
-
   const state = {
     downloadFormState: 'empty',
     downloadFormValue: '',
-    downloadFormMessage: '',
     feeds: [],
     feedsState: 'updated',
     activeFeedId: null,
@@ -26,13 +17,11 @@ export default () => {
         return;
       }
       if (!validator.isURL(this.downloadFormValue)) {
-        this.downloadFormMessage = i18next.t('rssValidation.invalid');
-        this.downloadFormState = 'invalid';
+        this.downloadFormState = 'invalid-url';
         return;
       }
       if (this.feeds.find(({ url }) => url === this.downloadFormValue)) {
-        this.downloadFormMessage = i18next.t('rssValidation.alreadyDownloaded');
-        this.downloadFormState = 'invalid';
+        this.downloadFormState = 'already-downloaded-url';
         return;
       }
       this.downloadFormMessage = '';

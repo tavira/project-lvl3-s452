@@ -1,9 +1,9 @@
 {
   "en": {
     "translation": {
-      "rssValidation": {
-        "invalid": "RSS feed address is not valid",
-        "alreadyDownloaded": "RSS feed is already on the list of downloaded feeds"
+        "rssFeedback": {
+          "invalid-url": "RSS feed address is not valid",
+          "already-downloaded-url": "RSS feed is already on the list of downloaded feeds"
       }
     }
   }
