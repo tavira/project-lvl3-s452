@@ -1,9 +1,11 @@
 {
   "en": {
     "translation": {
-        "rssFeedback": {
-          "invalid-url": "RSS feed address is not valid",
-          "already-downloaded-url": "RSS feed is already on the list of downloaded feeds"
+        "errors": {
+          "invalidUrl": "RSS feed address is not valid",
+          "alreadyDownloadedUrl": "RSS feed is already on the list of downloaded feeds",
+          "downloadedWithError": "There was an error downloading RSS. Try another source",
+          "parsedWithError": "There was an error parsing RSS. Try another source"
       }
     }
   }

@@ -17,16 +17,21 @@ export default (state) => {
 
     axios.get(url)
       .then((response) => {
-        const parsedFeed = getRssFeed(response);
-        const feed = {
-          ...parsedFeed,
-          url: state.downloadFormValue,
-        };
-        state.addFeed(feed);
-        state.setDownloadFormState('downloaded');
+        try {
+          const parsedFeed = getRssFeed(response);
+          const feed = {
+            ...parsedFeed,
+            url: state.downloadFormValue,
+          };
+          state.addFeed(feed);
+          state.setDownloadFormState('downloaded');
+        } catch (error) {
+          state.setDownloadFormState('invalid', 'parsedWithError');
+        }
       })
       .catch((error) => {
-        state.setDownloadFormState('download-error', error);
+        console.error(error);
+        state.setDownloadFormState('invalid', 'downloadedWithError');
       });
   };
 

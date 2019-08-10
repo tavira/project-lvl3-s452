@@ -6,7 +6,7 @@ import renderFeedPosts from './views/feedPostsList';
 import renderPostDescription from './views/postDescription';
 
 export default (state) => {
-  watch(state, 'downloadFormState', () => {
+  watch(state, ['downloadFormState', 'downloadFormErrorType'], () => {
     renderDownloadForm(state);
   });
 

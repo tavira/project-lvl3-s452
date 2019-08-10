@@ -19,12 +19,17 @@ const periodicallyUpdateFeeds = (state) => {
     .then((responses) => {
       responses.forEach((r) => {
         const url = r.config.url.replace(corsproxy, '');
-        const { articles } = getRssFeed(r);
-        state.addPostsToDownloadedFeed(url, articles);
+        try {
+          const { articles } = getRssFeed(r);
+          state.addPostsToDownloadedFeed(url, articles);
+        } catch (error) {
+          state.setDownloadFormState('invalid', 'parsedWithError');
+        }
       });
     })
     .catch((error) => {
-      state.setDownloadFormState('download-error', error);
+      console.error(error);
+      state.setDownloadFormState('invalid', 'downloadedWithError');
     })
     .finally(() => {
       setTimeout(() => periodicallyUpdateFeeds(state), updateInterval);

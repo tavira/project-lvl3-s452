@@ -4,43 +4,35 @@ export default () => {
   const state = {
     downloadFormState: 'empty',
     downloadFormValue: '',
+    downloadFormErrorType: '',
     feeds: [],
     feedsState: 'updated',
     activeFeedId: null,
     activePostGuid: null,
 
     setDownloadFormValue(v) {
+      this.downloadFormErrorType = '';
       this.downloadFormValue = v;
       if (this.downloadFormValue === '') {
-        this.downloadFormMessage = '';
         this.downloadFormState = 'empty';
         return;
       }
       if (!validator.isURL(this.downloadFormValue)) {
-        this.downloadFormState = 'invalid-url';
+        this.downloadFormState = 'invalid';
+        this.downloadFormErrorType = 'invalidUrl';
         return;
       }
       if (this.feeds.find(({ url }) => url === this.downloadFormValue)) {
-        this.downloadFormState = 'already-downloaded-url';
+        this.downloadFormState = 'invalid';
+        this.downloadFormErrorType = 'alreadyDownloadedUrl';
         return;
       }
-      this.downloadFormMessage = '';
       this.downloadFormState = 'valid';
     },
 
-    setDownloadFormMessage(v) {
-      this.downloadFormMessage = v;
-    },
-
-    setDownloadFormState(s, payload) {
-      const actions = {
-        invalid: this.setDownloadFormMessage.bind(this),
-        'download-error': this.setDownloadFormMessage.bind(this),
-      };
-      if (actions[s]) {
-        actions[s](payload);
-      }
+    setDownloadFormState(s, error) {
       this.downloadFormState = s;
+      this.downloadFormErrorType = error || '';
     },
 
     addFeed(feed) {

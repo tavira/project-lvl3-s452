@@ -7,7 +7,7 @@ export default (state) => {
 
   rssFeedInput.value = state.downloadFormValue;
   rssFeedback.style.display = 'block';
-  rssFeedback.textContent = i18next.t(`rssFeedback.${state.downloadFormState}`, '');
+  rssFeedback.textContent = i18next.t(`errors.${state.downloadFormErrorType}`, '');
 
   switch (state.downloadFormState) {
     case 'invalid':
@@ -30,10 +30,6 @@ export default (state) => {
     case 'downloading':
       rssFeedInput.classList.remove('border', 'border-danger');
       rssFeedAddButton.disabled = true;
-      break;
-    case 'download-error':
-      rssFeedInput.classList.add('border', 'border-danger');
-      rssFeedAddButton.disabled = false;
       break;
     default:
       break;
