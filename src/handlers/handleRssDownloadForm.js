@@ -18,9 +18,11 @@ export default (state) => {
     axios.get(url)
       .then((response) => {
         try {
-          const parsedFeed = getRssFeed(response);
+          const { title, desc, articles } = getRssFeed(response);
           const feed = {
-            ...parsedFeed,
+            title,
+            desc,
+            articles,
             url: state.downloadFormValue,
           };
           state.addFeed(feed);
