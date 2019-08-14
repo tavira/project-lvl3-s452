@@ -20,7 +20,7 @@ const periodicallyUpdateFeeds = (state) => {
       responses.forEach((r) => {
         const url = r.config.url.replace(corsproxy, '');
         try {
-          const { articles } = getRssFeed(r);
+          const { articles } = getRssFeed(r.data);
           state.addPostsToDownloadedFeed(url, articles);
         } catch (error) {
           console.log(error);

@@ -18,7 +18,7 @@ export default (state) => {
     axios.get(url)
       .then((response) => {
         try {
-          const { title, desc, articles } = getRssFeed(response);
+          const { title, desc, articles } = getRssFeed(response.data);
           const feed = {
             title,
             desc,

@@ -8,8 +8,7 @@ const getArticles = (xml) => {
   }));
 };
 
-export default (response) => {
-  const { data } = response;
+export default (data) => {
   const xml = new DOMParser().parseFromString(data, 'text/xml');
   return {
     title: xml.querySelector('channel > title').textContent,
