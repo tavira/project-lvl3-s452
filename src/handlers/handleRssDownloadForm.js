@@ -13,7 +13,7 @@ export default (state) => {
   const addButtonHandler = (e) => {
     e.preventDefault();
     state.setDownloadFormState('downloading');
-    const url = config.corsproxy + state.downloadFormValue;
+    const url = `${config.corsproxy}${state.downloadFormValue}`;
 
     axios.get(url)
       .then((response) => {
