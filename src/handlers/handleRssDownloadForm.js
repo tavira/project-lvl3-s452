@@ -3,14 +3,14 @@ import getRssFeed from '../parsers/rssParser';
 import config from '../config';
 
 export default (state) => {
-  const addButton = document.getElementById('rss-address-add');
+  const rssDownloadForm = document.getElementById('rss-download-form');
   const rssInput = document.getElementById('rss-address');
 
   const inputHandler = ({ target }) => {
     state.setDownloadFormValue(target.value);
   };
 
-  const addButtonHandler = (e) => {
+  const rssFormSubmitHandler = (e) => {
     e.preventDefault();
     state.setDownloadFormState('downloading');
     const url = `${config.corsproxy}${state.downloadFormValue}`;
@@ -38,6 +38,6 @@ export default (state) => {
       });
   };
 
-  addButton.addEventListener('click', addButtonHandler);
+  rssDownloadForm.addEventListener('submit', rssFormSubmitHandler);
   rssInput.addEventListener('input', inputHandler);
 };
