@@ -3,12 +3,13 @@ import validator from 'validator';
 export default () => {
   const state = {
     downloadFormState: 'empty',
+    downloadFormError: '',
     downloadFormValue: '',
-    downloadFormErrorType: '',
     feeds: [],
     feedsState: 'updated',
     activeFeedId: null,
     activePostGuid: null,
+    downloadErrors: [],
 
     setDownloadFormValue(v) {
       this.downloadFormErrorType = '';
@@ -18,13 +19,11 @@ export default () => {
         return;
       }
       if (!validator.isURL(this.downloadFormValue)) {
-        this.downloadFormState = 'invalid';
-        this.downloadFormErrorType = 'invalidUrl';
+        this.downloadFormState = 'invalidUrl';
         return;
       }
       if (this.feeds.find(({ url }) => url === this.downloadFormValue)) {
-        this.downloadFormState = 'invalid';
-        this.downloadFormErrorType = 'alreadyDownloadedUrl';
+        this.downloadFormState = 'alreadyDownloadedUrl';
         return;
       }
       this.downloadFormState = 'valid';
@@ -32,7 +31,7 @@ export default () => {
 
     setDownloadFormState(s, error) {
       this.downloadFormState = s;
-      this.downloadFormErrorType = error || '';
+      this.downloadFormError = error || '';
     },
 
     addFeed(feed) {
@@ -60,6 +59,15 @@ export default () => {
 
     setActivePostGuid(guid) {
       this.activePostGuid = guid;
+    },
+
+    addRssErrors(url, error) {
+      this.removeRssErrors(url);
+      this.downloadErrors = [[url, error], ...this.downloadErrors];
+    },
+
+    removeRssErrors(url) {
+      this.downloadErrors = this.downloadErrors.filter(([downloadedUrl]) => downloadedUrl !== url);
     },
   };
 

@@ -27,14 +27,14 @@ export default (state) => {
           };
           state.addFeed(feed);
           state.setDownloadFormState('downloaded');
-        } catch (error) {
-          console.error(error);
-          state.setDownloadFormState('invalid', 'parsedWithError');
+        } catch (err) {
+          console.error(err);
+          state.setDownloadFormState('unparsed', err);
         }
       })
-      .catch((error) => {
-        console.error(error);
-        state.setDownloadFormState('invalid', 'downloadedWithError');
+      .catch((err) => {
+        console.error(err);
+        state.setDownloadFormState('undownloaded', err);
       });
   };
 

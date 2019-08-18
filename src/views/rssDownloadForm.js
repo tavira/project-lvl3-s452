@@ -7,12 +7,40 @@ export default (state) => {
 
   rssFeedInput.value = state.downloadFormValue;
   rssFeedback.style.display = 'block';
-  rssFeedback.textContent = i18next.t(`errors.${state.downloadFormErrorType}`, '');
+  rssFeedback.textContent = '';
+
+  if (state.downloadErrors) {
+    const errorsView = state.downloadErrors.map(([url, err]) => (`
+      <p class="download-error">${i18next.t('updateError', { err: err.message, url })}`
+    ));
+    const rssErrors = document.getElementById('rss-errors');
+    rssErrors.innerHTML = errorsView.join('');
+    rssErrors.style.display = 'block';
+  }
 
   switch (state.downloadFormState) {
-    case 'invalid':
+    case 'invalidUrl':
       rssFeedInput.classList.add('border', 'border-danger');
-      rssFeedAddButton.disabled = true;
+      rssFeedAddButton.disabled = false;
+      rssFeedback.textContent = i18next.t(`downloadFormState.${state.downloadFormState}`,
+        { err: state.downloadFormError.message });
+      break;
+    case 'alreadyDownloadedUrl':
+      rssFeedInput.classList.add('border', 'border-danger');
+      rssFeedAddButton.disabled = false;
+      rssFeedback.textContent = i18next.t(`downloadFormState.${state.downloadFormState}`,
+        { err: state.downloadFormError.message });
+      break;
+    case 'undownloaded':
+      rssFeedInput.classList.add('border', 'border-danger');
+      rssFeedAddButton.disabled = false;
+      rssFeedback.textContent = i18next.t(`downloadFormState.${state.downloadFormState}`,
+        { err: state.downloadFormError.message });
+      break;
+    case 'unparsed':
+      rssFeedInput.classList.add('border', 'border-danger');
+      rssFeedAddButton.disabled = false;
+      rssFeedback.textContent = i18next.t(`downloadFormState.${state.downloadFormState}`);
       break;
     case 'valid':
       rssFeedInput.classList.remove('border', 'border-danger');

@@ -11,30 +11,25 @@ const periodicallyUpdateFeeds = (state) => {
     return;
   }
 
-  const requests = feeds
-    .map(feed => `${corsproxy}${feed.url}`)
-    .map(axios.get);
+  const downloadedUrls = feeds.map(feed => feed.url);
 
-  Promise.all(requests)
-    .then((responses) => {
-      responses.forEach((r) => {
-        const url = r.config.url.replace(corsproxy, '');
+  downloadedUrls.forEach((url) => {
+    axios.get(`${corsproxy}${url}`)
+      .then((response) => {
         try {
-          const { articles } = getRssFeed(r.data);
+          const { articles } = getRssFeed(response.data);
           state.addPostsToDownloadedFeed(url, articles);
-        } catch (error) {
-          console.log(error);
-          state.setDownloadFormState('invalid', 'parsedWithError');
+          state.removeRssErrors(url);
+        } catch (err) {
+          state.addRssErrors(url, err);
         }
+      })
+      .catch((err) => {
+        state.addRssErrors(url, err);
       });
-    })
-    .catch((error) => {
-      console.error(error);
-      state.setDownloadFormState('invalid', 'downloadedWithError');
-    })
-    .finally(() => {
-      setTimeout(() => periodicallyUpdateFeeds(state), updateInterval);
-    });
+  });
+
+  setTimeout(() => periodicallyUpdateFeeds(state), updateInterval);
 };
 
 export default periodicallyUpdateFeeds;
